@@ -50,7 +50,8 @@ final class StoreEntryTest extends TestCase
         foreach (['/register', '/login', '/customer/account', '#preview', '#fitur', '#cara-kerja'] as $href) {
             $this->assertGreaterThan(0, $xpath->query('//a[@href="'.$href.'"]')->length);
         }
-        $this->assertStringContainsString('DATA CONTOH', $html);
+        $this->assertStringContainsString('TAMPILAN ASLI', $html);
+        $this->assertStringContainsString('/images/landing/kasir.webp', $html);
         $this->assertStringNotContainsString('Buka toko pilihanmu', $html);
     }
 

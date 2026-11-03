@@ -41,6 +41,13 @@ assert.ok(cssText(landing).includes('.landing-hero') && !cssText(landing).includ
 for (const variant of ['guest', 'owner', 'cashier', 'account']) {
     assert.ok(readFileSync(`${directory}landing/${variant}.html`, 'utf8').includes('landing-heading'), `Landing HTML is missing: ${variant}`);
 }
+for (const name of ['kasir', 'produk', 'pesanan']) {
+    for (const suffix of ['', '-960']) {
+        const screenshot = readFileSync(`public/images/landing/${name}${suffix}.webp`);
+        assert.equal(screenshot.toString('ascii', 8, 12), 'WEBP', `Landing screenshot must be WebP: ${name}${suffix}`);
+        assert.ok(screenshot.length < 150_000, `Landing screenshot exceeds 150 KB: ${name}${suffix}`);
+    }
+}
 
 const graphs = { store, admin, dialogs, landing };
 if (process.argv.includes('--json')) {

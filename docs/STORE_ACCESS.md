@@ -1,6 +1,6 @@
 # Akses toko publik
 
-Domain utama `/` adalah landing page Toko Pojok: pengenalan kasir/stok/katalog, tombol daftar atau masuk pengelola, preview interaktif dengan data contoh, dan tautan akun pelanggan. Halaman ini tidak memuat katalog, logo, kategori, modul referensi, atau pengaturan toko bawaan, termasuk ketika owner sedang login. `/?shop=slug-valid` mengarahkan ke alamat kanonis `/s/slug-valid`.
+Domain utama `/` adalah landing page Toko Pojok: pengenalan kasir/stok/katalog, tombol daftar atau masuk pengelola, galeri screenshot asli Kasir/Produk/Pesanan dengan data contoh, dan tautan akun pelanggan. Screenshot diambil dari aplikasi lokal dengan database testing terpisah, bukan data usaha nyata. Hanya gambar tab terpilih yang dimuat; gambar dapat diperbesar lewat tautan. Halaman ini tidak memuat katalog, logo, kategori, modul referensi, atau pengaturan toko bawaan, termasuk ketika owner sedang login. `/?shop=slug-valid` mengarahkan ke alamat kanonis `/s/slug-valid`.
 
 Tombol pengelola mengikuti sesi: pengunjung ke `/login` atau `/register`, owner ke `/dashboard`, kasir ke `/pos`, dan akun staf lain ke `/profile`. Preview Kasir/Stok/Pesanan hanya ilustrasi di browser, tidak membuat transaksi atau membuka data toko mana pun. `npm run build` menghasilkan HTML awal dari komponen React yang sama untuk setiap variasi navigasi agar konten tampil sebelum JavaScript. Stylesheet landing dimuat hanya pada halaman tersebut; stylesheet admin tidak ikut dimuat.
 

@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { FiArrowRight, FiArrowUpRight, FiCheck, FiClipboard, FiCoffee, FiGrid, FiPackage, FiSearch, FiShoppingBag, FiShoppingCart, FiSmartphone } from 'react-icons/fi';
+import { FiArrowRight, FiArrowUpRight, FiCheck, FiPackage, FiShoppingBag, FiShoppingCart, FiSmartphone } from 'react-icons/fi';
 import { landingNavigation } from '@/Utils/platformLanding';
 
-const products = [
-    { name: 'Kopi bubuk 250 g', sku: 'KOP-001', price: 35000, stock: 24, Icon: FiCoffee },
-    { name: 'Teh melati', sku: 'TEH-002', price: 18000, stock: 18, Icon: FiPackage },
-    { name: 'Gelas keramik', sku: 'GLS-003', price: 25000, stock: 12, Icon: FiShoppingBag },
+const previews = [
+    { name: 'Kasir', image: 'kasir', alt: 'Halaman POS Kasir asli dengan katalog produk dan tiga barang di keranjang.' },
+    { name: 'Stok', image: 'produk', alt: 'Halaman Produk asli untuk mengelola harga dan persediaan barang.' },
+    { name: 'Pesanan', image: 'pesanan', alt: 'Halaman Pesanan asli dengan daftar pesanan pelanggan.' },
 ];
-const money = value => `Rp ${value.toLocaleString('id-ID')}`;
 const features = [
     { Icon: FiShoppingCart, title: 'Layani dari meja kasir.', text: 'Cari barang, susun keranjang, dan catat transaksi langsung dari POS.' },
     { Icon: FiPackage, title: 'Stok lebih mudah diikuti.', text: 'Kelola harga dan persediaan. Gunakan impor atau ekspor saat mengurus banyak produk.' },
@@ -20,29 +19,18 @@ function Wordmark({ LinkComponent = 'a' }) {
 
 function AppPreview() {
     const [view, setView] = useState('Kasir');
-    return <figure id="preview" className="landing-preview" aria-label="Pratinjau aplikasi menggunakan data contoh">
-        <figcaption className="landing-preview-caption"><span><span className="landing-status-dot" />Kenali ruang kerjamu</span><span>DATA CONTOH</span></figcaption>
-        <div className="landing-app-window">
-            <aside className="landing-app-sidebar" aria-hidden="true"><FiShoppingBag size={22} /><div><span className={view === 'Kasir' ? 'is-current' : ''}><FiShoppingCart size={18} /></span><span className={view === 'Stok' ? 'is-current' : ''}><FiPackage size={18} /></span><span className={view === 'Pesanan' ? 'is-current' : ''}><FiClipboard size={18} /></span></div><span className="landing-avatar">TP</span></aside>
-            <div className="landing-app-main">
-                <div className="landing-app-topbar"><span>Toko Contoh</span><span className="landing-sample-badge">Pratinjau</span></div>
-                <div className="landing-preview-tabs" role="group" aria-label="Pilih tampilan contoh">{['Kasir', 'Stok', 'Pesanan'].map(name => <button key={name} type="button" aria-pressed={view === name} onClick={() => setView(name)}>{name}</button>)}</div>
-                <div className="landing-app-content" aria-live="polite" aria-atomic="true">
-                    <div className="landing-app-heading"><span>{view === 'Kasir' ? 'Transaksi baru' : view === 'Stok' ? 'Daftar produk' : 'Pesanan pelanggan'}</span><FiGrid size={14} aria-hidden="true" /></div>
-                    {view === 'Kasir' && <>
-                        <div className="landing-fake-search" aria-hidden="true"><FiSearch size={14} />Nama produk atau SKU</div>
-                        <div className="landing-sample-products">{products.map(({ name, price, Icon }) => <div key={name} className="landing-sample-product"><span><Icon size={26} aria-hidden="true" /></span><strong>{name}</strong><small>{money(price)}</small></div>)}</div>
-                        <div className="landing-cart-caption"><FiShoppingCart size={14} aria-hidden="true" /><strong>Keranjang</strong><span>3 item</span></div>
-                        <div className="landing-cart-lines">{products.map(product => <div key={product.sku}><span>{product.name}</span><span>1 × {money(product.price)}</span></div>)}</div>
-                        <div className="landing-sample-total"><span>Total belanja</span><strong>{money(products.reduce((sum, product) => sum + product.price, 0))}</strong></div>
-                    </>}
-                    {view === 'Stok' && <div className="landing-sample-stock"><div className="landing-stock-head"><span>Produk / SKU</span><span>Stok</span></div>{products.map(product => <div className="landing-stock-row" key={product.sku}><span><strong>{product.name}</strong><small>{product.sku}</small></span><span>{product.stock} pcs</span></div>)}<p><FiCheck size={14} aria-hidden="true" />Harga dan stok dikelola dari satu daftar.</p></div>}
-                    {view === 'Pesanan' && <div className="landing-sample-orders">{[['01', 'Pelanggan langsung', 'Menunggu', 'Rp 78.000'], ['02', 'Pesanan katalog', 'Diproses', 'Rp 35.000']].map(([id, name, status, amount]) => <div key={id}><span className="landing-order-number">{id}</span><span><strong>{name}</strong><small>{status}</small></span><strong>{amount}</strong></div>)}<p>Pelanggan pesan dari katalog. Toko menindaklanjuti dari panel pesanan.</p></div>}
-                </div>
-                <div className="landing-app-bottom"><span className="landing-status-dot" />Ilustrasi tampilan, bukan transaksi nyata.</div>
-            </div>
+    const preview = previews.find(item => item.name === view);
+    const source = `/images/landing/${preview.image}.webp`;
+    return <figure id="preview" className="landing-preview" aria-label="Screenshot asli aplikasi menggunakan data contoh">
+        <figcaption className="landing-preview-caption"><span><span className="landing-status-dot" />Kenali ruang kerjamu</span><span>TAMPILAN ASLI</span></figcaption>
+        <div className="landing-screenshot-window">
+            <div className="landing-preview-tabs" role="group" aria-label="Pilih screenshot aplikasi">{previews.map(({ name }) => <button key={name} type="button" aria-pressed={view === name} onClick={() => setView(name)}>{name}</button>)}</div>
+            <a className="landing-screenshot-link" href={source} target="_blank" rel="noopener noreferrer" aria-label={`Perbesar screenshot ${view} (buka tab baru)`}>
+                <img key={source} src={source} srcSet={`/images/landing/${preview.image}-960.webp 960w, ${source} 1440w`} sizes="(max-width: 760px) calc(100vw - 48px), (max-width: 1000px) 48vw, 575px" width="1440" height="960" decoding="async" alt={preview.alt} />
+                <span>Perbesar tampilan<FiArrowUpRight size={14} aria-hidden="true" /></span>
+            </a>
         </div>
-        <p className="landing-preview-note">Coba pilih Kasir, Stok, atau Pesanan untuk melihat contohnya.</p>
+        <p className="landing-preview-note">Screenshot asli pengelola toko dengan data contoh.<br />Pilih tab, lalu klik gambar untuk memperbesar.</p>
     </figure>;
 }
 
