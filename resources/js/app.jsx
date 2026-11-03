@@ -8,6 +8,7 @@ import { createInertiaApp, router } from '@inertiajs/react';
 import { createPagePreloader } from './Utils/navigationAssets';
 import { createRoot } from 'react-dom/client';
 import { prepareProductVisit } from './Utils/productPagination';
+import { PLATFORM_TITLE } from './Utils/platformLanding';
 
 const pagePreloader = createPagePreloader(import.meta.glob('./Pages/**/*.jsx'));
 
@@ -55,7 +56,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'TokoM';
 const businessPages = new Map();
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => title === PLATFORM_TITLE ? title : `${title} - ${appName}`,
     resolve: async (name) => {
         if (businessPages.has(name)) return businessPages.get(name);
         const module = await pagePreloader.load(name);
