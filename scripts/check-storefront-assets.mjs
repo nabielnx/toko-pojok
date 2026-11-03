@@ -28,6 +28,7 @@ function assets(entries) {
 const store = assets(['resources/js/app.jsx', 'resources/js/Pages/Order/Menu.jsx']);
 const admin = assets(['resources/js/app.jsx', 'resources/js/Pages/Product/Index.jsx']);
 const dialogs = assets(['resources/js/Components/Customer/MenuDialogs.jsx']);
+const landing = assets(['resources/js/app.jsx', 'resources/js/Pages/Store/Entry.jsx']);
 const cssText = graph => graph.css.map(asset => readFileSync(directory + asset.file, 'utf8')).join('\n');
 assert.ok(!store.js.some(asset => asset.file.includes('vendor-headless')), 'Popup library must not be an initial catalog dependency.');
 assert.ok(dialogs.js.some(asset => asset.file.includes('vendor-headless')), 'Deferred dialogs must retain the accessible popup library.');
@@ -35,8 +36,13 @@ assert.ok(!cssText(store).includes('.admin-workspace') && !cssText(store).includ
 assert.ok(cssText(store).includes('.app-pagination'), 'Shared pagination styling must remain available to customers.');
 assert.ok(cssText(admin).includes('.admin-workspace') && cssText(admin).includes('.admin-button'), 'Admin SPA navigation must retain its layout/control styling.');
 assert.ok(manifest['resources/css/admin.css']?.file.endsWith('.css'), 'Admin skeletons need an initial stylesheet entry.');
+assert.ok(!cssText(store).includes('.landing-hero'), 'Landing styles must not be initial store catalog dependencies.');
+assert.ok(cssText(landing).includes('.landing-hero') && !cssText(landing).includes('.admin-workspace'), 'Landing must have its own styles without loading the admin layout.');
+for (const variant of ['guest', 'owner', 'cashier', 'account']) {
+    assert.ok(readFileSync(`${directory}landing/${variant}.html`, 'utf8').includes('landing-heading'), `Landing HTML is missing: ${variant}`);
+}
 
-const graphs = { store, admin, dialogs };
+const graphs = { store, admin, dialogs, landing };
 if (process.argv.includes('--json')) {
     console.log(JSON.stringify(graphs, null, 2));
 } else {

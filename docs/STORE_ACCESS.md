@@ -1,6 +1,8 @@
 # Akses toko publik
 
-Domain utama `/` adalah halaman masuk netral TokoM. Halaman ini tidak memuat katalog, logo, kategori, modul referensi, atau pengaturan toko bawaan, termasuk ketika owner sedang login. `/?shop=slug-valid` mengarahkan ke alamat kanonis `/s/slug-valid`.
+Domain utama `/` adalah landing page Toko Pojok: pengenalan kasir/stok/katalog, tombol daftar atau masuk pengelola, preview interaktif dengan data contoh, dan tautan akun pelanggan. Halaman ini tidak memuat katalog, logo, kategori, modul referensi, atau pengaturan toko bawaan, termasuk ketika owner sedang login. `/?shop=slug-valid` mengarahkan ke alamat kanonis `/s/slug-valid`.
+
+Tombol pengelola mengikuti sesi: pengunjung ke `/login` atau `/register`, owner ke `/dashboard`, kasir ke `/pos`, dan akun staf lain ke `/profile`. Preview Kasir/Stok/Pesanan hanya ilustrasi di browser, tidak membuat transaksi atau membuka data toko mana pun. `npm run build` menghasilkan HTML awal dari komponen React yang sama untuk setiap variasi navigasi agar konten tampil sebelum JavaScript. Stylesheet landing dimuat hanya pada halaman tersebut; stylesheet admin tidak ikut dimuat.
 
 Setiap katalog dibuka lewat `/s/{businessSlug}`. Query `shop={businessSlug}` wajib dikirim pada `/catalog/products`, `/payment`, `/order/waiting`, `/order/status`, `/customer/checkout`, riwayat pesanan akun, API pesanan pelanggan, dan Motor Saya. Slug harus menunjuk usaha yang aktif. Slug kosong, tidak dikenal, atau tidak valid menghasilkan 404 pada alur yang membutuhkan toko, sebelum pembacaan katalog atau mutasi transaksi/stok. Cookie login owner tidak menggantikan pilihan toko publik.
 

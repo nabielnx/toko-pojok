@@ -18,8 +18,13 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-        <title inertia>{{ config('app.name', 'TokoM') }}</title>
-        <meta name="description" content="TokoM - Aplikasi kasir, pengelolaan stok, dan katalog online untuk usaha Anda.">
+        @if (($page['component'] ?? '') === 'Store/Entry')
+            <title inertia>Toko Pojok | Kasir, Stok, dan Katalog Online</title>
+            <meta name="description" inertia="description" content="Kelola kasir, stok, dan pesanan dalam satu tempat. Buat toko di Toko Pojok dan bagikan katalog online kepada pelanggan.">
+        @else
+            <title inertia>{{ config('app.name', 'TokoM') }}</title>
+            <meta name="description" content="TokoM - Aplikasi kasir, pengelolaan stok, dan katalog online untuk usaha Anda.">
+        @endif
         <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
         <link rel="manifest" href="{{ route('pwa.manifest', ['shop' => request()->attributes->get('shop_slug') ?? request()->attributes->get('business')?->slug]) }}">
         <link rel="apple-touch-icon" href="{{ asset('icons/tokom-v1-192.png') }}">
@@ -59,6 +64,7 @@
         @php
             $entrypoints = ['resources/js/app.jsx'];
             if (($page['component'] ?? '') === 'Order/Menu') $entrypoints[] = 'resources/js/Pages/Order/Menu.jsx';
+            if (($page['component'] ?? '') === 'Store/Entry') $entrypoints[] = 'resources/js/Pages/Store/Entry.jsx';
             if ($adminLoading) $entrypoints[] = 'resources/css/admin.css';
         @endphp
         @vite($entrypoints)

@@ -38,7 +38,20 @@ export async function buildLoadingSkeletons() {
             for (const page of definition.pages) manifest.pages[page] = definition.key;
         }
         await writeFile(path.join(outputDirectory, 'manifest.json'), JSON.stringify(manifest), 'utf8');
+        // Render the same landing component before JS loads, without reading any shop data.
+        const { default: PlatformLanding } = await server.ssrLoadModule('/resources/js/Components/Platform/PlatformLanding.jsx');
+        const landingDirectory = path.join(root, 'public/build/landing');
+        await mkdir(landingDirectory, { recursive: true });
+        for (const [variant, auth] of Object.entries({
+            guest: null,
+            owner: { user: true, roles: ['owner'] },
+            cashier: { user: true, roles: ['cashier'] },
+            account: { user: true, roles: [] },
+        })) {
+            await writeFile(path.join(landingDirectory, `${variant}.html`), renderToStaticMarkup(React.createElement(PlatformLanding, { auth })), 'utf8');
+        }
         console.log(`Generated ${count} loading skeletons from shared React components.`);
+        console.log('Generated platform landing HTML for guest, owner, cashier and account navigation.');
     } finally {
         await server.close();
     }
