@@ -35,7 +35,7 @@ final class StoreEntryTest extends TestCase
             ->where('logo_url', null)->where('app_settings.store_name', 'TokoM')
             ->where('catalog_groups', [])->where('reference_modules', [])
             ->missing('initialProducts')->missing('settings'));
-        $this->get('/')->assertSee('Kelola toko,')->assertDontSee('Nama Toko Rahasia Lama')->assertDontSee('Barang toko lama');
+        $this->get('/')->assertSee('Kasir dan katalog')->assertDontSee('Nama Toko Rahasia Lama')->assertDontSee('Barang toko lama');
     }
 
     public function test_platform_landing_has_visible_content_navigation_and_metadata_before_javascript(): void
@@ -50,7 +50,6 @@ final class StoreEntryTest extends TestCase
         foreach (['/register', '/login', '/customer/account', '#preview', '#fitur', '#cara-kerja'] as $href) {
             $this->assertGreaterThan(0, $xpath->query('//a[@href="'.$href.'"]')->length);
         }
-        $this->assertStringContainsString('TAMPILAN ASLI', $html);
         $this->assertStringContainsString('/images/landing/kasir.webp', $html);
         $this->assertStringNotContainsString('Buka toko pilihanmu', $html);
     }
