@@ -14,14 +14,14 @@
     </header>
     <main class="mx-auto flex max-w-xl flex-col items-center px-5 py-16 text-center sm:py-24">
         <div class="mb-6 h-16 w-16 rounded-2xl bg-[#19231f]" aria-hidden="true"></div>
-        <h1 class="font-heading text-3xl font-semibold sm:text-4xl">Kelola toko, semua dalam satu tempat.</h1>
-        <p class="mt-4 text-sm leading-7 text-[#526159]">Dari transaksi di meja kasir sampai pesanan dari pelanggan. Rapikan urusan toko dengan ruang kerja yang saling terhubung.</p>
+        <h1 class="font-heading text-3xl font-semibold sm:text-4xl">Kasir dan katalog untuk tokomu.</h1>
+        <p class="mt-4 text-sm leading-7 text-[#526159]">Catat penjualan, cek stok, dan terima pesanan dari katalog online.</p>
         @unless ($signedIn)
             <a href="{{ route('register') }}" class="mt-6 rounded-lg bg-[#FFDD00] px-5 py-3 text-sm font-semibold">Buat toko</a>
         @endunless
         <div class="mt-8 w-full rounded-xl border border-[#dedfd7] bg-white p-5 text-left">
-            <h2 class="text-sm font-semibold">Datang untuk belanja?</h2>
-            <p class="mt-2 text-sm leading-6 text-[#526159]">Buka tautan atau pindai QR dari penjual untuk masuk ke toko yang tepat.</p>
+            <h2 class="text-sm font-semibold">Untuk pelanggan</h2>
+            <p class="mt-2 text-sm leading-6 text-[#526159]">Buka tautan atau pindai QR dari penjual.</p>
             <a href="{{ route('customer.account') }}" class="mt-4 inline-block text-sm font-semibold">Buka akun pelanggan</a>
         </div>
     </main>
